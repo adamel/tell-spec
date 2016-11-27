@@ -27,6 +27,8 @@ Requires: python-cherrypy
 Requires: python-configobj
 Requires: python-werkzeug
 
+Requires(pre):	shadow-utils
+
 %description
 A local server to use in place of Tellstick Live. Initially based on
 remotestick-server (https://github.com/pakerfeldt/remotestick-server)
@@ -54,6 +56,13 @@ install -m 0640 configspec.ini $RPM_BUILD_ROOT/etc/tellprox/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%pre
+getent group tellprox >/dev/null || groupadd -r tellprox
+getent passwd tellprox >/dev/null || \
+    useradd -r -g tellprox -d / -s /sbin/nologin \
+    -c "Tellprox user" tellprox
+exit 0
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
