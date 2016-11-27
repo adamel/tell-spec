@@ -15,6 +15,9 @@ BuildArch: noarch
 Vendor: Erik Johansson <erik@ejohansson.se>
 Url: https://github.com/erijo/tellcore-py
 
+BuildRequires: python
+BuildRequires: python-setuptools
+
 %description
 tellcore-py is a Python wrapper for `Telldus' <http://www.telldus.com/>`
 home automation library `Telldus Core <http://developer.telldus.se/doxygen/>`.
