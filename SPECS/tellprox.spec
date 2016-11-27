@@ -68,3 +68,4 @@ exit 0
 %defattr(-,root,root)
 %dir %attr(0770,root,tellprox) /etc/tellprox
 %config(noreplace) %attr(0640,root,tellprox) /etc/tellprox/configspec.ini
+%ghost %attr(0640,tellprox,tellprox) /etc/tellprox/config.ini
