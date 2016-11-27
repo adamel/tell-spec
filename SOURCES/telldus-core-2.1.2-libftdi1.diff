@@ -1,0 +1,15 @@
+diff -Naur telldus-core-2.1.2/service/CMakeLists.txt telldus-core-2.1.2.oden/service/CMakeLists.txt
+--- telldus-core-2.1.2/service/CMakeLists.txt	2014-03-31 10:30:09.000000000 +0000
++++ telldus-core-2.1.2.oden/service/CMakeLists.txt	2014-10-25 12:40:48.000000000 +0000
+@@ -184,9 +184,9 @@
+ 	LIST(APPEND telldus-service_SRCS TellStick_ftd2xx.cpp )
+ 	LIST(APPEND telldus-service_LIBRARIES ${FTD2XX_LIBRARY})
+ ELSE (FTDI_ENGINE STREQUAL "ftd2xx")
+-	FIND_LIBRARY(FTDI_LIBRARY ftdi)
++	FIND_LIBRARY(FTDI_LIBRARY ftdi1)
+ 	INCLUDE(FindPkgConfig)
+-	PKG_SEARCH_MODULE(FTDI libftdi)
++	PKG_SEARCH_MODULE(FTDI libftdi1)
+ 	INCLUDE_DIRECTORIES( ${FTDI_INCLUDEDIR} )
+ 	ADD_DEFINITIONS( -DLIBFTDI )
+ 	LIST(APPEND telldus-service_SRCS TellStick_libftdi.cpp )

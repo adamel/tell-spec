@@ -1,0 +1,48 @@
+From ed3ce34422fc6cfd44d1f32d35cf6c092479a311 Mon Sep 17 00:00:00 2001
+From: John <john.obaterspok@gmail.com>
+Date: Tue, 18 Mar 2014 20:40:34 +0100
+Subject: [PATCH] Only create the socket once. If we fail to connect is we
+ should try to reuse it later.
+
+---
+ telldus-core/common/Socket_unix.cpp |   10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/telldus-core/common/Socket_unix.cpp b/telldus-core/common/Socket_unix.cpp
+index 2ee1d7c..79dc086 100644
+--- a/telldus-core/common/Socket_unix.cpp
++++ b/telldus-core/common/Socket_unix.cpp
+@@ -38,7 +38,7 @@ public:
+ 
+ Socket::Socket() {
+ 	d = new PrivateData;
+-	d->socket = 0;
++	d->socket = -1;
+ 	d->connected = false;
+ 	FD_ZERO(&d->infds);
+ }
+@@ -51,7 +51,7 @@ Socket::Socket(SOCKET_T socket) {
+ }
+ 
+ Socket::~Socket(void) {
+-	if(d->socket) {
++	if(d->socket >= 0) {
+ 		close(d->socket);
+ 	}
+ 	delete d;
+@@ -61,8 +61,10 @@ void Socket::connect(const std::wstring &server) {
+ 	struct sockaddr_un remote;
+ 	socklen_t len;
+ 
+-	if ((d->socket = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0)) == -1) {
+-		return;
++	if (d->socket == -1) {
++		if ((d->socket = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0)) == -1) {
++			return;
++		}
+ 	}
+ #if defined(_MACOSX)
+ 	int op = fcntl(d->socket, F_GETFD);
+-- 
+1.7.10.4
+

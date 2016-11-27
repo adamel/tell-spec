@@ -1,0 +1,24 @@
+diff -Naurp telldus-core-2.1.2/common/Socket_unix.cpp telldus-core-2.1.2.oden/common/Socket_unix.cpp
+--- telldus-core-2.1.2/common/Socket_unix.cpp	2014-03-31 12:30:09.000000000 +0200
++++ telldus-core-2.1.2.oden/common/Socket_unix.cpp	2014-04-20 08:00:04.527160108 +0200
+@@ -68,7 +68,7 @@ void Socket::connect(const std::wstring
+ 	int op = fcntl(d->socket, F_GETFD);
+ 	fcntl(d->socket, F_SETFD, op | FD_CLOEXEC);  // OS X doesn't support SOCK_CLOEXEC yet
+ #endif
+-	std::string name = "/tmp/" + std::string(server.begin(), server.end());
++	std::string name = "/var/lib/telldusd/" + std::string(server.begin(), server.end());
+ 	remote.sun_family = AF_UNIX;
+ 	snprintf(remote.sun_path, sizeof(remote.sun_path), "%s", name.c_str());
+ 
+diff -Naurp telldus-core-2.1.2/service/ConnectionListener_unix.cpp telldus-core-2.1.2.oden/service/ConnectionListener_unix.cpp
+--- telldus-core-2.1.2/service/ConnectionListener_unix.cpp	2014-03-31 12:30:09.000000000 +0200
++++ telldus-core-2.1.2.oden/service/ConnectionListener_unix.cpp	2014-04-20 08:00:21.853161077 +0200
+@@ -32,7 +32,7 @@ ConnectionListener::ConnectionListener(c
+ 	d = new PrivateData;
+ 	d->waitEvent = waitEvent;
+ 
+-	d->name = "/tmp/" + std::string(name.begin(), name.end());
++	d->name = "/var/lib/telldusd/" + std::string(name.begin(), name.end());
+ 	d->running = true;
+ 
+ 	this->start();
