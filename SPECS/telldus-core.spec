@@ -23,13 +23,13 @@
 # SOFTWARE.
 
 %define	major 2
-%define	libname	%mklibname %{name} %{major}
-%define	devname	%mklibname -d %{name}
+%define	libname	libtelldus-core%{major}
+%define	devname	libtelldus-core-devel
 
 Summary:	TellStick controlling library
 Name:		telldus-core
 Version:	2.1.2
-Release:	%mkrel 3
+Release:	3%{?dist}
 License:	LGPLv2.1+
 Group:		System/Boot and Init
 URL:		http://developer.telldus.se
@@ -47,10 +47,9 @@ BuildRequires:	pkgconfig(libconfuse)
 BuildRequires:	cmake
 # making man pages is broken
 BuildConflicts:	doxygen
-Requires(post):  rpm-helper >= 0.24.8-1
-Requires(preun): rpm-helper >= 0.24.8-1
-Requires(pre): rpm-helper >= 0.24.8-1
 BuildRequires:	systemd-units
+%{?systemd_requires}
+Requires(pre):	shadow-utils
 
 %description
 Telldus Core is the driver and tools for controlling a Telldus Technologies
@@ -99,7 +98,7 @@ perl -pi -e "s|%{_localstatedir}/state|%{_localstatedir}/lib/telldusd|g" service
 make
 
 %install
-%makeinstall_std -C build
+make install DESTDIR=$RPM_BUILD_ROOT
 
 install -d %{buildroot}%{_unitdir}
 install -m0644 %{SOURCE2} %{buildroot}%{_unitdir}/telldusd.service
@@ -118,13 +117,20 @@ install -d %{buildroot}%{_mandir}/man1
 install man/*.1 %{buildroot}%{_mandir}/man1/
 
 %pre
-%_pre_useradd telldusd %{_localstatedir}/lib/telldusd /bin/bash
+getent group telldusd >/dev/null || groupadd -r telldusd
+getent passwd telldusd >/dev/null || \
+	useradd -r -g telldusd -d %{_localstatedir}/lib/telldusd -s /bin/bash \
+	-c "telldusd service user" telldusd
+exit 0
 
 %post
-%_post_service telldusd
+%systemd_post telldusd.service
 
 %preun
-%_preun_service telldusd
+%systemd_preun telldusd.service
+
+%postun
+%systemd_postun_with_restart telldusd.service
 
 %files
 %doc AUTHORS README
