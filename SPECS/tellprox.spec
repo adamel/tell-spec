@@ -16,6 +16,17 @@ BuildArch: noarch
 Vendor: Pete Cracknell <p3tecracknell@gmail.com>
 Url: https://github.com/p3tecracknell/tellprox
 
+BuildRequires: python
+BuildRequires: python-setuptools
+
+Requires: python
+Requires: tellcore-py
+Requires: python-beaker
+Requires: python-bottle
+Requires: python-cherrypy
+Requires: python-configobj
+Requires: python-werkzeug
+
 %description
 A local server to use in place of Tellstick Live. Initially based on
 remotestick-server (https://github.com/pakerfeldt/remotestick-server)
