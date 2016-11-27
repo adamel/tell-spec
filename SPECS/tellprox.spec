@@ -1,7 +1,6 @@
 %define name tellprox
-%define version 0.28
-%define unmangled_version 0.28
-%define unmangled_version 0.28
+%define version 0.28_20140710_f1461664
+%define unmangled_version f1461664020cd555567971068b577360a821b348
 %define release 1
 
 Summary: Python API to replicate Telldus Live
