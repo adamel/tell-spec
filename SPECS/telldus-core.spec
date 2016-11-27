@@ -35,7 +35,7 @@ Group:		System/Boot and Init
 URL:		http://developer.telldus.se
 Source0:	http://download.telldus.se/TellStick/Software/telldus-core/%{name}-%{version}.tar.gz
 #Source0:	http://download.telldus.se/debian/pool/unstable/telldus-core_%{version}.orig.tar.gz
-Source1:	telldus-core-2.1.2-manpages.tar.gz
+Source1:	Doxyfile.in
 Source2:	telldusd.service
 Patch0:		telldus-core-2.1.1-run-under-dedicated-user.diff
 Patch1:		telldus-core-2.1.2_rc1-linkage_fix.diff
@@ -45,8 +45,7 @@ Patch4:		telldus-core-2.1.2-libftdi1.diff
 BuildRequires:	pkgconfig(libftdi1)
 BuildRequires:	pkgconfig(libconfuse)
 BuildRequires:	cmake
-# making man pages is broken
-BuildConflicts:	doxygen
+BuildRequires:	doxygen help2man
 BuildRequires:	systemd-units
 %{?systemd_requires}
 Requires(pre):	shadow-utils
@@ -81,7 +80,8 @@ Telldus Core.
 
 %prep
 
-%setup -q -a1
+%setup -q
+cp %{SOURCE1} .
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
@@ -93,6 +93,7 @@ perl -pi -e "s|%{_localstatedir}/state|%{_localstatedir}/lib/telldusd|g" service
 
 %build
 %cmake \
+    -DGENERATE_MAN:BOOL=ON \
     -DSCRIPT_PATH="%{_datadir}/telldus/scripts"
 
 make
@@ -112,9 +113,6 @@ EOF
 done
 
 install -d %{buildroot}%{_localstatedir}/lib/telldusd
-
-install -d %{buildroot}%{_mandir}/man1
-install man/*.1 %{buildroot}%{_mandir}/man1/
 
 %pre
 getent group telldusd >/dev/null || groupadd -r telldusd
