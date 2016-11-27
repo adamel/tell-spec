@@ -29,7 +29,7 @@
 Summary:	TellStick controlling library
 Name:		telldus-core
 Version:	2.1.2
-Release:	3%{?dist}
+Release:	3.ts1%{?dist}
 License:	LGPLv2.1+
 Group:		System/Boot and Init
 URL:		http://developer.telldus.se
@@ -163,6 +163,12 @@ exit 0
 
 
 %changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 2.1.2-3.ts1
+- Make it build on EL/Fedora.
+- Build man pages from source.
+- Make build partly parallel.
+- Fix narrowing conversions to make it build on Fedora 25.
+
 * Mon Feb 08 2016 umeabot <umeabot> 2.1.2-3.mga6
 + Revision: 950223
 - Mageia 6 Mass Rebuild
