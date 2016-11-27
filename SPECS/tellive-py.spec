@@ -85,6 +85,8 @@ python3 setup.py build
 %install
 python3 setup.py install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 install -m 0644 -D %SOURCE1 $RPM_BUILD_ROOT%{_unitdir}/tellive.service
+install -d -m 0755 $RPM_BUILD_ROOT/etc/tellive
+touch $RPM_BUILD_ROOT/etc/tellive/tellive.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -110,6 +112,8 @@ exit 0
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
 %{_unitdir}/tellive.service
+%dir %attr(0750,tellive,tellive) /etc/tellive
+%config(noreplace) %attr(0640,tellive,tellive) %verify(not md5 mtime size) /etc/tellive/tellive.conf
 
 %changelog
 * Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-2
