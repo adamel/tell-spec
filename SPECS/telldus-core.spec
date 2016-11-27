@@ -96,6 +96,7 @@ perl -pi -e "s|%{_localstatedir}/state|%{_localstatedir}/lib/telldusd|g" service
     -DGENERATE_MAN:BOOL=ON \
     -DSCRIPT_PATH="%{_datadir}/telldus/scripts"
 
+make telldusd %{?_smp_mflags}
 make
 
 %install
