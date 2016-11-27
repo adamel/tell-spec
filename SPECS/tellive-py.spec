@@ -15,6 +15,12 @@ BuildArch: noarch
 Vendor: Erik Johansson <erik@ejohansson.se>
 Url: https://github.com/erijo/tellive-py
 
+%if 0%{?rhel}
+BuildRequires: python34
+%else
+BuildRequires: python3
+%endif
+
 %description
 tellive-py is a Python wrapper for `Telldus Live <http://live.telldus.com/>`,
 "a user friendly service for automating your TellStick connected gear
