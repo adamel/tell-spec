@@ -1,0 +1,29 @@
+From 442f1fae7bfbbc3cb6a108bf34b9a2373c1dae67 Mon Sep 17 00:00:00 2001
+From: Marcus Sundberg <marcus@marcussundberg.com>
+Date: Sun, 27 Nov 2016 20:50:10 +0100
+Subject: [PATCH] Do not allow anyone to connect to telldusd sockets.
+
+We want to be able to run it on a multi user system, so only allow
+members of the group we're running as to connect.
+---
+ telldus-core/service/ConnectionListener_unix.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/telldus-core/service/ConnectionListener_unix.cpp b/telldus-core/service/ConnectionListener_unix.cpp
+index d3b238f..b9c4d38 100644
+--- a/telldus-core/service/ConnectionListener_unix.cpp
++++ b/telldus-core/service/ConnectionListener_unix.cpp
+@@ -68,8 +68,8 @@ void ConnectionListener::run() {
+ 	bind(serverSocket, (struct sockaddr *)&name, size);
+ 	listen(serverSocket, 5);
+ 
+-	// Change permissions to allow everyone
+-	chmod(d->name.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
++	// Change permissions to allow only owner and group
++	chmod(d->name.c_str(), S_IRWXU | S_IRWXG);
+ 
+ 	fd_set infds;
+ 	FD_ZERO(&infds);
+-- 
+1.8.3.1
+
