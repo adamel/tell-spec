@@ -29,7 +29,7 @@
 Summary:	TellStick controlling library
 Name:		telldus-core
 Version:	2.1.2
-Release:	3.ts1%{?dist}
+Release:	3.ts2%{?dist}
 License:	LGPLv2.1+
 Group:		System/Boot and Init
 URL:		http://developer.telldus.se
@@ -165,6 +165,9 @@ exit 0
 
 
 %changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 2.1.2-3.ts2
+- Only allow telldusd group to connect to telldusd sockets.
+
 * Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 2.1.2-3.ts1
 - Make it build on EL/Fedora.
 - Build man pages from source.
