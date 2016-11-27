@@ -6,7 +6,7 @@
 Summary: Python API to replicate Telldus Live
 Name: %{name}
 Version: %{version}
-Release: %{release}
+Release: %{release}%{?dist}
 Source0: %{name}-%{unmangled_version}.tar.gz
 Source1: tellprox.service
 License: GPLv3
