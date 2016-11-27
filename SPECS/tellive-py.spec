@@ -8,6 +8,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}%{?dist}
 Source0: %{name}-%{unmangled_version}.tar.gz
+Patch10: tellive-py-0.5.2-report-switches.patch
 License: GPLv3+
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -70,6 +71,7 @@ Telldus Live and register the client (with PUBLIC_KEY and PRIVATE_KEY from
 
 %prep
 %setup -n %{name}-%{unmangled_version}
+%patch10 -p1
 
 %build
 python3 setup.py build

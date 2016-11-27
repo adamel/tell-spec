@@ -1,0 +1,34 @@
+From 33a9835d7165895b654a665226ceb821fbaa5996 Mon Sep 17 00:00:00 2001
+From: Erik <molobrakos@users.noreply.github.com>
+Date: Wed, 23 Dec 2015 02:03:10 +0100
+Subject: [PATCH 1/2] Fix typo to make tellive report state for switches
+
+---
+ tellive/live.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tellive/live.py b/tellive/live.py
+index 5ed7df8..4ee8469 100644
+--- a/tellive/live.py
++++ b/tellive/live.py
+@@ -34,7 +34,7 @@ class TelldusLive(object):
+                 | const.TELLSTICK_UP \
+                 | const.TELLSTICK_DOWN \
+                 | const.TELLSTICK_STOP
+-        params = {'supportedMethos': supported_methods,
++        params = {'supportedMethods': supported_methods,
+                   'extras': 'coordinate,timezone,tzoffset'}
+         values = self._client.request("devices/list", params)
+         return [Device(self._client, p['id'], p) for p in values['device']]
+@@ -74,7 +74,7 @@ class Device(object):
+                 | const.TELLSTICK_UP \
+                 | const.TELLSTICK_DOWN \
+                 | const.TELLSTICK_STOP
+-        params = {'id': self.id, 'supportedMethos': supported_methods,
++        params = {'id': self.id, 'supportedMethods': supported_methods,
+                   'extras': 'coordinate,timezone,tzoffset'}
+         values = self._client.request("device/info", params)
+         self._update(values)
+-- 
+1.8.3.1
+
