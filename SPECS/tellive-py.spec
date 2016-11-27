@@ -11,7 +11,6 @@ Source0: %{name}-%{unmangled_version}.tar.gz
 License: GPLv3+
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Prefix: %{_prefix}
 BuildArch: noarch
 Vendor: Erik Johansson <erik@ejohansson.se>
 Url: https://github.com/erijo/tellive-py
