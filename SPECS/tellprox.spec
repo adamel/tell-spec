@@ -85,3 +85,7 @@ exit 0
 %dir %attr(0770,root,tellprox) /etc/tellprox
 %config(noreplace) %attr(0640,root,tellprox) /etc/tellprox/configspec.ini
 %ghost %attr(0640,tellprox,tellprox) /etc/tellprox/config.ini
+
+%changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.28_20140710_f1461664-1
+- Initial packaging.
