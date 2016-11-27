@@ -1,0 +1,14 @@
+[Unit]
+Description=Python API to replicate Telldus Live
+After=telldusd.service
+
+[Service]
+Type=simple
+User=tellprox
+Group=tellprox
+WorkingDirectory=/etc/tellprox
+ExecStart=/usr/bin/python -m tellprox
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

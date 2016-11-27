@@ -8,6 +8,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{unmangled_version}.tar.gz
+Source1: tellprox.service
 License: GPLv3
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -17,6 +18,8 @@ Url: https://github.com/p3tecracknell/tellprox
 
 BuildRequires: python
 BuildRequires: python-setuptools
+BuildRequires: systemd
+%{?systemd_requires}
 
 Requires: python
 Requires: tellcore-py
@@ -53,6 +56,7 @@ python setup.py build
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 install -d -m 0755 $RPM_BUILD_ROOT/etc/tellprox
 install -m 0640 configspec.ini $RPM_BUILD_ROOT/etc/tellprox/
+install -m 0644 -D %SOURCE1 $RPM_BUILD_ROOT%{_unitdir}/tellprox.service
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -66,8 +70,18 @@ getent passwd tellprox >/dev/null || \
 getent group telldusd | grep -q tellprox || usermod -a -G telldusd tellprox
 exit 0
 
+%post
+%systemd_post tellprox.service
+
+%preun
+%systemd_preun tellprox.service
+
+%postun
+%systemd_postun_with_restart tellprox.service
+
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
+%{_unitdir}/tellprox.service
 %dir %attr(0770,root,tellprox) /etc/tellprox
 %config(noreplace) %attr(0640,root,tellprox) /etc/tellprox/configspec.ini
 %ghost %attr(0640,tellprox,tellprox) /etc/tellprox/config.ini
