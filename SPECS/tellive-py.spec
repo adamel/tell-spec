@@ -1,7 +1,7 @@
 %define name tellive-py
 %define version 0.5.2
 %define unmangled_version 0.5.2
-%define release 2
+%define release 3
 
 Summary: Python wrapper for connecting to Telldus Live
 Name: %{name}
@@ -116,6 +116,11 @@ exit 0
 %config(noreplace) %attr(0640,tellive,tellive) %verify(not md5 mtime size) /etc/tellive/tellive.conf
 
 %changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-3
+- Create tellive user.
+- Add systemd service unit.
+- Add empty tellive.conf file.
+
 * Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-2
 - Fix typo to make tellive report state for switches.
 
