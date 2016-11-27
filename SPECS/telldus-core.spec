@@ -153,7 +153,7 @@ exit 0
 %attr(0755,root,root) %config(noreplace) %{_datadir}/telldus/scripts/sensorevent
 %attr(0755,root,root) %config(noreplace) %{_datadir}/telldus/scripts/controllerevent
 %attr(0755,telldusd,telldusd) %dir %{_localstatedir}/lib/telldusd
-%attr(0644,telldusd,telldusd) %config(noreplace) %{_localstatedir}/lib/telldusd/telldus-core.conf
+%attr(0644,telldusd,telldusd) %verify(not size md5 mtime) %config(noreplace) %{_localstatedir}/lib/telldusd/telldus-core.conf
 %{_mandir}/man1/*
 
 %files -n %{libname}
