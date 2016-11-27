@@ -17,6 +17,11 @@ Url: https://github.com/erijo/tellcore-py
 
 BuildRequires: python
 BuildRequires: python-setuptools
+%if 0%{?rhel}
+BuildRequires: python34
+%else
+BuildRequires: python3
+%endif
 
 %description
 tellcore-py is a Python wrapper for `Telldus' <http://www.telldus.com/>`
@@ -52,13 +57,15 @@ Features
 %setup -n %{name}-%{unmangled_version}
 
 %build
-python setup.py build
+python2 setup.py build --build-base=python2
+python3 setup.py build --build-base=python34
 
 %install
-python setup.py install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+python2 setup.py build --build-base=python2 install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+python3 setup.py build --build-base=python34 install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES3
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f INSTALLED_FILES
+%files -f INSTALLED_FILES -f INSTALLED_FILES3
 %defattr(-,root,root)
