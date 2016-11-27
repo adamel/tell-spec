@@ -69,3 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f INSTALLED_FILES -f INSTALLED_FILES3
 %defattr(-,root,root)
+
+%changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 1.1.3-1
+- Initial packaging.
