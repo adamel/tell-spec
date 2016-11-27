@@ -38,9 +38,13 @@ python setup.py build
 
 %install
 python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+install -d -m 0755 $RPM_BUILD_ROOT/etc/tellprox
+install -m 0640 configspec.ini $RPM_BUILD_ROOT/etc/tellprox/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
+%dir %attr(0770,root,tellprox) /etc/tellprox
+%config(noreplace) %attr(0640,root,tellprox) /etc/tellprox/configspec.ini
