@@ -1,7 +1,7 @@
 %define name tellive-py
 %define version 0.5.2
 %define unmangled_version 0.5.2
-%define release 1
+%define release 2
 
 Summary: Python wrapper for connecting to Telldus Live
 Name: %{name}
@@ -86,5 +86,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-2
+- Fix typo to make tellive report state for switches.
+
 * Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-1
 - Initial packaging.
