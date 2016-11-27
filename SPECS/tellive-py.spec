@@ -22,6 +22,9 @@ BuildRequires: python34
 BuildRequires: python3
 %endif
 
+Requires(pre):	shadow-utils
+Requires(pre):	telldus-core
+
 %description
 tellive-py is a Python wrapper for `Telldus Live <http://live.telldus.com/>`,
 "a user friendly service for automating your TellStick connected gear
@@ -81,6 +84,15 @@ python3 setup.py install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%pre
+getent group tellive >/dev/null || groupadd -r tellive
+getent passwd tellive >/dev/null || \
+    useradd -r -g tellive -d / -s /sbin/nologin \
+    -c "Tellive user" tellive
+# Make us member of telldusd group for access to telldusd.
+getent group telldusd | grep -q tellive || usermod -a -G telldusd tellive
+exit 0
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
