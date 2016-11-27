@@ -1,0 +1,14 @@
+[Unit]
+Description=Python wrapper for connecting to Telldus Live
+After=telldusd.service
+
+[Service]
+Type=simple
+User=tellive
+Group=tellive
+WorkingDirectory=/etc/tellive
+ExecStart=/usr/bin/tellive_core_connector /etc/tellive/tellive.conf
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

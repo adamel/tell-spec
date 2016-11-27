@@ -8,6 +8,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}%{?dist}
 Source0: %{name}-%{unmangled_version}.tar.gz
+Source1: tellive.service
 Patch10: tellive-py-0.5.2-report-switches.patch
 License: GPLv3+
 Group: Development/Libraries
@@ -21,6 +22,8 @@ BuildRequires: python34
 %else
 BuildRequires: python3
 %endif
+BuildRequires: systemd
+%{?systemd_requires}
 
 Requires(pre):	shadow-utils
 Requires(pre):	telldus-core
@@ -81,6 +84,7 @@ python3 setup.py build
 
 %install
 python3 setup.py install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+install -m 0644 -D %SOURCE1 $RPM_BUILD_ROOT%{_unitdir}/tellive.service
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -94,8 +98,18 @@ getent passwd tellive >/dev/null || \
 getent group telldusd | grep -q tellive || usermod -a -G telldusd tellive
 exit 0
 
+%post
+%systemd_post tellive.service
+
+%preun
+%systemd_preun tellive.service
+
+%postun
+%systemd_postun_with_restart tellive.service
+
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
+%{_unitdir}/tellive.service
 
 %changelog
 * Sun Nov 27 2016 Marcus Sundberg <marcus@marcussundberg.com> - 0.5.2-2
