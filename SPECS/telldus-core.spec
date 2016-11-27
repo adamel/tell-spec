@@ -42,6 +42,7 @@ Patch1:		telldus-core-2.1.2_rc1-linkage_fix.diff
 Patch2:		telldus-core-2.1.2-socket_dir.diff
 Patch3:		0001-Only-create-the-socket-once.-If-we-fail-to-connect-i.patch
 Patch4:		telldus-core-2.1.2-libftdi1.diff
+Patch100:	telldus-core-2.1.2-narrowing-conversions.patch
 BuildRequires:	pkgconfig(libftdi1)
 BuildRequires:	pkgconfig(libconfuse)
 BuildRequires:	cmake
@@ -87,6 +88,7 @@ cp %{SOURCE1} .
 %patch2 -p1
 %patch3 -p2
 %patch4 -p1
+%patch100 -p2
 
 perl -pi -e "s|/etc/udev/rules.d|%{_udevrulesdir}|g" tdadmin/CMakeLists.txt
 perl -pi -e "s|%{_localstatedir}/state|%{_localstatedir}/lib/telldusd|g" service/CMakeLists.txt

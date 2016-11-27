@@ -1,0 +1,39 @@
+From e3bfbdb588dee22c57632a992ed9b2a1ea3694ee Mon Sep 17 00:00:00 2001
+From: Marcus Sundberg <marcus@marcussundberg.com>
+Date: Sun, 27 Nov 2016 19:33:41 +0100
+Subject: [PATCH] Fix narrowing conversions.
+
+---
+ telldus-core/service/ProtocolIkea.cpp | 2 +-
+ telldus-core/service/ProtocolX10.cpp  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/telldus-core/service/ProtocolIkea.cpp b/telldus-core/service/ProtocolIkea.cpp
+index 6b96434..5b57c8d 100644
+--- a/telldus-core/service/ProtocolIkea.cpp
++++ b/telldus-core/service/ProtocolIkea.cpp
+@@ -23,7 +23,7 @@ int ProtocolIkea::methods() const {
+ 
+ std::string ProtocolIkea::getStringForMethod(int method, unsigned char level, Controller *) {
+ 	const char B1[] = {84, 84, 0};
+-	const char B0[] = {170, 0};
++	const char B0[] = {static_cast<char>(170), 0};
+ 
+ 	int intSystem = this->getIntParameter(L"system", 1, 16)-1;
+ 	int intFadeStyle = TelldusCore::comparei(this->getStringParameter(L"fade", L"true"), L"true");
+diff --git a/telldus-core/service/ProtocolX10.cpp b/telldus-core/service/ProtocolX10.cpp
+index b3af123..334c581 100644
+--- a/telldus-core/service/ProtocolX10.cpp
++++ b/telldus-core/service/ProtocolX10.cpp
+@@ -22,7 +22,7 @@ int ProtocolX10::methods() const {
+ std::string ProtocolX10::getStringForMethod(int method, unsigned char data, Controller *controller) {
+ 	const unsigned char S = 59, L = 169;
+ 	const char B0[] = {S, S, 0};
+-	const char B1[] = {S, L, 0};
++	const char B1[] = {S, static_cast<char>(L), 0};
+ 	const unsigned char START_CODE[] = {'S', 255, 1, 255, 1, 255, 1, 100, 255, 1, 180, 0};
+ 	const unsigned char STOP_CODE[] = {S, 0};
+ 
+-- 
+1.8.3.1
+
